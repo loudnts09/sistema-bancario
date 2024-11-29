@@ -15,13 +15,14 @@ public class Cliente {
     private String telefone;
     private Conta conta;
     
+    public Cliente() {
+    }
+
     public Cliente(String nome, String cpf, String email, String telefone){
        this.nome = nome;
        this.cpf = cpf;
        this.email = email;
-       this. telefone = telefone;
-       
-       
+       this.telefone = telefone; 
     }
 
     public String getNome() {
@@ -62,6 +63,5 @@ public class Cliente {
 
     public void setConta(Conta conta) {
         this.conta = conta;
-    }    
-    
+    }        
 }

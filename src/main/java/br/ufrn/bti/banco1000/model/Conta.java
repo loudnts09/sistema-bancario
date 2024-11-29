@@ -13,21 +13,12 @@ public class Conta {
     private int numeroConta;
     private String tipo;
     private int senha;
-    private double saldo;
-    private ArrayList<Movimentacao> movimentacao = new ArrayList();
+    private double saldo = 100000;
+    private ArrayList<Movimentacao> movimentacao = new ArrayList<>();
 
-    public Conta(String nome, int agencia, int numeroConta, String tipo, int senha, double saldo, ArrayList movimentacao) {
-        this.nome = nome;
-        this.agencia = agencia;
-        this.numeroConta = numeroConta;
-        this.tipo = tipo;
-        this.senha = senha;
-        this.saldo = saldo;
-        this.movimentacao = movimentacao;
+    public Conta() {
     }
-    public int getNumConta(){
-        return this.numeroConta;
-    }
+    
     public Conta(String nome, int agencia, int numeroConta, String tipo, int senha, double saldo) {
         this.nome = nome;
         this.agencia = agencia;
@@ -36,6 +27,10 @@ public class Conta {
         this.senha = senha;
         this.saldo = saldo;
     }
+
+    public int getNumConta(){
+        return this.numeroConta;
+    }   
     
     public void depositar(double valor) {
         this.saldo = this.saldo + valor;
@@ -89,4 +84,61 @@ public class Conta {
     {
         return "";
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public int getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(int agencia) {
+        this.agencia = agencia;
+    }
+
+    public int getNumeroConta() {
+        return numeroConta;
+    }
+
+    public void setNumeroConta(int numeroConta) {
+        this.numeroConta = numeroConta;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getSenha() {
+        return senha;
+    }
+
+    public void setSenha(int senha) {
+        this.senha = senha;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public ArrayList<Movimentacao> getMovimentacao() {
+        return movimentacao;
+    }
+
+    public void setMovimentacao(ArrayList<Movimentacao> movimentacao) {
+        this.movimentacao = movimentacao;
+    }
+    
 }
