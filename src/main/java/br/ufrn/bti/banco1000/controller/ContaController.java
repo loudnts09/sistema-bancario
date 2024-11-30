@@ -8,11 +8,13 @@ import br.ufrn.bti.banco1000.model.Conta;
 
 public class ContaController {
 
+    private static int ultimoNumeroDaConta = 1000;
+
     public Conta criarConta(Cliente cliente){
 
         Scanner scanner = new Scanner(System.in);
-        int numeroDaAgencia = 1;
-        int numeroDaConta = numeroDaAgencia * 2;
+        int numeroDaAgencia = 2828;
+        int numeroDaConta = gerarNumeroDaConta();
 
         System.out.println("Escolha o tipo de conta que deseja possuir:\n1 - Poupança\n2 - Corrente");
         int tipoConta = 0;
@@ -23,7 +25,7 @@ public class ContaController {
             tipoConta = scanner.nextInt();
             scanner.nextLine();
 
-            if (tipoConta == 1) {
+            if(tipoConta == 1) {
                 tipoDeContaTexto = "poupanca";
             } else if (tipoConta == 2) {
                 tipoDeContaTexto = "corrente";
@@ -36,16 +38,27 @@ public class ContaController {
         System.out.println("Digite uma senha numérica que deseja possuir em sua conta:");
         int senha = scanner.nextInt();
 
-        //pedir dados do usuario pra criar conta
         Conta conta = new Conta();
         conta.setNome(cliente.getNome());
         conta.setCliente(cliente);
-        conta.setAgencia(numeroDaAgencia + 1);
+        conta.setAgencia(numeroDaAgencia);
         conta.setNumeroConta(numeroDaConta);
         conta.setTipo(tipoDeContaTexto);
         conta.setSenha(senha);
 
-        System.out.println("Conta criada com sucesso!");
+        System.out.println("Conta criada com sucesso! Segue abaixo a visualização de seus dados pessoais.\n");
+
+        System.out.println(
+            "Nome: " + cliente.getNome() +
+            "\nNumero: " + cliente.getTelefone() +
+            "\nCPF: " + cliente.getCpf() +
+            "\nEmail: " + cliente.getEmail() +
+            "\nAgencia:" + conta.getAgencia() +
+            "\nNumero da Conta: " + conta.getNumConta() +
+            "\nTipo de conta: " + conta.getTipo() +
+            "\nSenha: " + conta.getSenha()
+            );
+        
 
         return conta;
     }
@@ -56,6 +69,8 @@ public class ContaController {
         System.out.println("Digite seu nome: ");
         String nome = scanner.nextLine();
         Conta contaLogada = null;
+        Conta destinatario = null;
+        int escolha = 20;
 
         for(Conta conta : contas){
             if(conta.getNome().equals(nome)){
@@ -79,30 +94,80 @@ public class ContaController {
 
         System.out.println("Login bem-sucedido! Bem-Vindo " + contaLogada.getNome());
 
-        System.out.println("0 - Sair");
-        System.out.println("1 - Visualizar Extrato");
-        System.out.println("2 - Realizar Depósito");
-        System.out.println("3 - Realizar Saque");
-        System.out.println("4 - Realizar Transferência\n");
-    
-            int escolha = scanner.nextInt();
-    
-        switch (escolha) {
-            case 0:
-                System.out.println("Saindo...");
-                break;
-            case 1:
-                break;
-            case 2:           
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                throw new AssertionError();
-        }
+        while(escolha != 0){
+            System.out.println("\n0 - Sair");
+            System.out.println("1 - Visualizar Extrato");
+            System.out.println("2 - Realizar Depósito");
+            System.out.println("3 - Realizar Saque");
+            System.out.println("4 - Realizar Transferência");
+            System.out.println("5 - Ver Saldo\n");
+        
+            escolha = scanner.nextInt();
+            if(escolha > 5 ||  escolha < 0){
+                System.out.println("Por favor selecione uma opção válida.");
+                continue;
+            }
+        
+            switch (escolha) {
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+                case 1:
+                    contaLogada.exibirExtrato();
+                    break;
+                case 2:
+                    System.out.println("Qual  valor deseja depositar? ");
+                    int valor = scanner.nextInt();
+                    if(valor <= 0){
+                        System.out.println("Digite um valor válido.");
+                    }
+                    else{
+                        contaLogada.depositar(valor);
+                        System.out.println("Valor depositado com sucesso!");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Qual valor deseja sacar? (insira o valor positivo)");
+                    valor = scanner.nextInt();
+                    if(valor <= 0){
+                        System.out.println("Digite um valor válido.");
+                    }
+                    else{
+                        contaLogada.sacar(valor);
+                        System.out.println("Valor retirado com sucesso!");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o número da conta destinatária.");
+                    int numeroDaContaDestino = scanner.nextInt();
+                    for(Conta conta2 : contas){
+                        if(conta2.getNumConta() == numeroDaContaDestino){
+                            destinatario = conta2;
+                            break;
+                        }
+                    }
 
+                    if(destinatario == null){
+                        System.out.println("Destinatário inválido");
+                    }
+                    else{
+                        System.out.println("Qual valo deseja transferir? ");
+                        valor = scanner.nextInt();
+                        contaLogada.transferir(destinatario, valor);
+                    }
+                    break;
+                case 5:
+                    double saldo = contaLogada.getSaldo();
+                    System.out.println("Saldo: " + String.format("%.2f", saldo));
+                    break;
+                default:
+                    throw new AssertionError();
+                }
+        }
         return contaLogada;
+    }
+
+    private synchronized int gerarNumeroDaConta(){
+        return ultimoNumeroDaConta++;
     }
 }

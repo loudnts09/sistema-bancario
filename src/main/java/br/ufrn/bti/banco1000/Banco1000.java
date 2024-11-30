@@ -28,13 +28,12 @@ public class Banco1000 {
 
         Cliente cliente = null;
         Conta conta = null;
-
         int opcao = 4;
-        
         Scanner scanner = new Scanner(System.in);
         
+        System.out.println("\n--------- Bem-vindo ao Banco 1000! ---------\n\n");
+        
         while (opcao != 0) {  
-            System.out.println("\n--------- Bem-vindo ao Banco 1000! ---------\n\n");
             
             System.out.println("Escolha a opção desejada abaixo:\n");
             

@@ -26,6 +26,13 @@ public class Movimentacao {
         this.descricao = descricao;
         this.valor = valor;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Data: %s | Tipo: %s | Descrição: %s | Valor: R$ %.2f",
+                data.toString(), tipo, descricao, valor);
+    }
+
     
     public Date getData() {
         return data;

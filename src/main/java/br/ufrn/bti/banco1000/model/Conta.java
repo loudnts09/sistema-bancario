@@ -13,7 +13,7 @@ public class Conta {
     private int numeroConta;
     private String tipo;
     private int senha;
-    private double saldo = 100000;
+    private double saldo = 0;
     private ArrayList<Movimentacao> movimentacao = new ArrayList<>();
 
     public Conta() {
@@ -34,9 +34,7 @@ public class Conta {
     
     public void depositar(double valor) {
         this.saldo = this.saldo + valor;
-        this.movimentacao.add(new Movimentacao("FORMA", this.cliente, "DEPOSITO", 
-            valor));
-        
+        this.movimentacao.add(new Movimentacao("FORMA", this.cliente, "DEPOSITO", valor));
     }
     
     public void sacar(double valor) {
@@ -44,26 +42,35 @@ public class Conta {
             this.saldo = this.saldo - valor;
             this.movimentacao.add(new Movimentacao("FORMA", this.cliente, "SAQUE", 
             valor));
-            
+        }
+        else{
+            System.out.println("Valor para saque indisponível.");
         }
     }
     
-    public void transferir(int agencia, int numeroConta, double valor) {
-        if (this.saldo - valor >= 0) {
-           this.saldo = this.saldo - valor; 
-        }
-    }
-    
-    public void transferir(Conta conta, double valor) {
+    public void transferir(Conta destinatario, double valor) {
         
-         if (this.saldo - valor >= 0) {
+        if (this.saldo - valor >= 0) {
            this.sacar(valor);
-           conta.depositar(valor);
-           conta.movimentacao.add(new Movimentacao("FORMA", this.cliente, 
-                   "ENTRADA POR TRANSFERENCIA", valor));
-           this.movimentacao.add(new Movimentacao("FORMA", this.cliente, 
-                   "SAIDA POR TRANSFERENCIA", valor));
+           destinatario.depositar(valor);
+           destinatario.movimentacao.add(new Movimentacao("FORMA", this.cliente,"ENTRADA POR TRANSFERENCIA", valor));
+           this.movimentacao.add(new Movimentacao("FORMA", this.cliente,"SAIDA POR TRANSFERENCIA", valor));
         }
+        else {
+            System.out.println("Saldo insuficiente.");
+        }
+    }
+
+    public void exibirExtrato() {
+        System.out.println("---- Extrato de Movimentações ----");
+        if (movimentacao.isEmpty()) {
+            System.out.println("Nenhuma movimentação registrada.");
+        } else {
+            for (Movimentacao m : movimentacao) {
+                System.out.println(m);
+            }
+        }
+        System.out.println("----------------------------------");
     }
     
     public String getNome() {
@@ -72,17 +79,6 @@ public class Conta {
     
     public double getSaldo() {
         return this.saldo;
-    }
-    
-    @Override
-    public boolean equals(Object o){
-        return false;
-    }
-    
-    @Override
-    public String toString()
-    {
-        return "";
     }
 
     public void setNome(String nome) {
@@ -129,16 +125,8 @@ public class Conta {
         this.senha = senha;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
     public ArrayList<Movimentacao> getMovimentacao() {
         return movimentacao;
-    }
-
-    public void setMovimentacao(ArrayList<Movimentacao> movimentacao) {
-        this.movimentacao = movimentacao;
     }
     
 }
