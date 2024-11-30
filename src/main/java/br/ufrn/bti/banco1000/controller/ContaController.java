@@ -39,7 +39,7 @@ public class ContaController {
         int senha = scanner.nextInt();
 
         Conta conta = new Conta();
-        conta.setNome(cliente.getNome());
+        conta.setCpf(cliente.getCpf());
         conta.setCliente(cliente);
         conta.setAgencia(numeroDaAgencia);
         conta.setNumeroConta(numeroDaConta);
@@ -66,14 +66,14 @@ public class ContaController {
     public Conta logar(Cliente cliente, ArrayList<Conta> contas){
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite seu nome: ");
-        String nome = scanner.nextLine();
+        System.out.println("Digite seu CPF: ");
+        String cpf = scanner.nextLine();
         Conta contaLogada = null;
         Conta destinatario = null;
         int escolha = 20;
 
         for(Conta conta : contas){
-            if(conta.getNome().equals(nome)){
+            if(conta.getCpf().equals(cpf)){
                 contaLogada = conta;
                 break;
             }
@@ -92,7 +92,7 @@ public class ContaController {
             return null;
         }
 
-        System.out.println("Login bem-sucedido! Bem-Vindo " + contaLogada.getNome());
+        System.out.println("Login bem-sucedido! Bem-vindo, " + contaLogada.getCliente().getNome());
 
         while(escolha != 0){
             System.out.println("\n0 - Sair");

@@ -7,7 +7,7 @@ package br.ufrn.bti.banco1000.model;
 import java.util.ArrayList;
 
 public class Conta {
-    private String nome;
+    private String cpf;
     private Cliente cliente;
     private int agencia;
     private int numeroConta;
@@ -19,8 +19,8 @@ public class Conta {
     public Conta() {
     }
     
-    public Conta(String nome, int agencia, int numeroConta, String tipo, int senha, double saldo) {
-        this.nome = nome;
+    public Conta(String cpf, int agencia, int numeroConta, String tipo, int senha, double saldo) {
+        this.cpf = cpf;
         this.agencia = agencia;
         this.numeroConta = numeroConta;
         this.tipo = tipo;
@@ -73,16 +73,16 @@ public class Conta {
         System.out.println("----------------------------------");
     }
     
-    public String getNome() {
-        return this.nome;
+    public String getCpf() {
+        return this.cpf;
     }    
     
     public double getSaldo() {
         return this.saldo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public Cliente getCliente() {
